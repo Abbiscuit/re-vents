@@ -24,7 +24,7 @@ const NavBar = ({ setFormOpen }) => {
         <Menu.Item as={NavLink} to="/events" name="Events" />
         <Menu.Item as={NavLink} to="/createEvent">
           <Button
-            onClick={() => setFormOpen(true)}
+            // onClick={() => setFormOpen(true)}
             positive
             inverted
             content="Create Event"
