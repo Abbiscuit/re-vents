@@ -10,11 +10,9 @@ const rootEl = document.getElementById('root');
 
 function render() {
   ReactDOM.render(
-    <React.StrictMode>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </React.StrictMode>,
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>,
     rootEl
   );
 }
