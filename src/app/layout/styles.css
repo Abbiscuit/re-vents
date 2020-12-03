@@ -2,6 +2,10 @@ body {
   background-color: #eaeaea;
 }
 
+.ui.inverted.menu {
+  border-radius: 0;
+}
+
 .ui.main.container {
   margin-top: 7em;
 }
