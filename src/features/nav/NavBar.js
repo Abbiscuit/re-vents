@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Container, Menu, Button } from 'semantic-ui-react';
+import SignedInMenu from './SignedInMenu';
+import SignedOutMenu from './SignedOutMenu';
 
 const NavBar = ({ setFormOpen }) => {
+  const [authenticated, setAuthenticated] = useState(false);
+
   return (
     <Menu inverted>
       <Container>
@@ -19,15 +23,11 @@ const NavBar = ({ setFormOpen }) => {
             content="Create Event"
           />
         </Menu.Item>
-        <Menu.Item>
-          <Button basic inverted content="Login" />
-          <Button
-            basic
-            inverted
-            content="Register"
-            style={{ marginLeft: '0.5em' }}
-          />
-        </Menu.Item>
+        {authenticated ? (
+          <SignedInMenu setAuthenticated={setAuthenticated} />
+        ) : (
+          <SignedOutMenu setAuthenticated={setAuthenticated} />
+        )}
       </Container>
     </Menu>
   );

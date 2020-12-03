@@ -44,13 +44,3 @@ function App() {
 }
 
 export default App;
-
-/* 
-
-        <EventDashboard
-          formOpen={formOpen}
-          setFormOpen={setFormOpen}
-          selectEvent={handleSelectEvent}
-          selectedEvent={selectedEvent}
-        />
-*/
