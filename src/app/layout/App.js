@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, useLocation } from 'react-router-dom';
 import { Container } from 'semantic-ui-react';
 
 /* components */
@@ -8,8 +8,12 @@ import EventDashboard from '../../features/events/eventDashboard/EventDashboard'
 import NavBar from '../../features/nav/NavBar';
 import EventDetailedPage from '../../features/events/eventDetailed/EventDetailedPage';
 import EventForm from '../../features/events/eventForm/EventForm';
+import Sandbox from '../../features/sandbox/Sandbox';
 
 function App() {
+  // Appにはkeyが存在しないため
+  const { key } = useLocation();
+
   return (
     <Fragment>
       <Route exact path="/" component={HomePage} />
@@ -20,10 +24,12 @@ function App() {
             <NavBar />
             <Container className="main">
               <Route exact path="/events" component={EventDashboard} />
+              <Route exact path="/sandbox" component={Sandbox} />
               <Route path="/events/:id" component={EventDetailedPage} />
               <Route
-                path={['/createEvent', '/manage:id']}
+                path={['/createEvent', '/manage/:id']}
                 component={EventForm}
+                key={key}
               />
             </Container>
           </>

@@ -15,13 +15,14 @@ const NavBar = ({ setFormOpen }) => {
   }
 
   return (
-    <Menu inverted>
+    <Menu inverted fixed="top">
       <Container>
         <Menu.Item as={NavLink} exact to="/" header>
           <img src="/assets/logo.png" alt="logo" style={{ marginRight: 15 }} />
           Re-vents
         </Menu.Item>
         <Menu.Item as={NavLink} to="/events" name="Events" />
+        <Menu.Item as={NavLink} to="/sandbox" name="Sandbox" />
         <Menu.Item as={NavLink} to="/createEvent">
           <Button
             // onClick={() => setFormOpen(true)}
