@@ -1,10 +1,16 @@
 import cuid from 'cuid';
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Button, FormField, Header, Segment } from 'semantic-ui-react';
+import { Button, Header, Segment } from 'semantic-ui-react';
 import { createEvent, updateEvent } from '../eventActions';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import MyTextInput from '../../../app/common/form/MyTextInput';
+import MyTextArea from '../../../app/common/form/MyTextArea';
+import MySelectInput from '../../../app/common/form/MySelectInput';
+import { categoryData } from '../../../app/api/categoryOptions';
+import MyDateInput from '../../../app/common/form/MyDateInput';
 
 const EventForm = ({ match, history }) => {
   const dispatch = useDispatch();
@@ -21,57 +27,62 @@ const EventForm = ({ match, history }) => {
     date: '',
   };
 
-  const [values, setValues] = useState(initialValues);
-
-  function handleFormSubmit() {
-    selectedEvent
-      ? dispatch(updateEvent({ ...selectedEvent, ...values }))
-      : dispatch(
-          createEvent({
-            ...values,
-            id: cuid(),
-            hostedBy: 'Bob',
-            attendees: [],
-            hostPhotoURL: '/assets/user.png',
-          })
-        );
-
-    history.push('/events');
-  }
-
-  function handleInputChange(e) {
-    const { name, value } = e.target;
-    //valuesをコピーし、その中のe.target.nameに合致するvalueに変更を加える
-    setValues({ ...values, [name]: value });
-  }
+  const validationSchema = Yup.object({
+    title: Yup.string().required('You must provide a title'),
+    category: Yup.string().required('You must provide a category'),
+    description: Yup.string().required(),
+    city: Yup.string().required(),
+    venue: Yup.string().required(),
+    date: Yup.string().required(),
+  });
 
   return (
     <Segment clearing>
-      <Header content={selectedEvent ? 'Edit the event' : 'Create new event'} />
-
       <Formik
         initialValues={initialValues}
-        onSubmit={values => console.log(values)}
+        validationSchema={validationSchema}
+        onSubmit={values => {
+          selectedEvent
+            ? dispatch(updateEvent({ ...selectedEvent, ...values }))
+            : dispatch(
+                createEvent({
+                  ...values,
+                  id: cuid(),
+                  hostedBy: 'Bob',
+                  attendees: [],
+                  hostPhotoURL: '/assets/user.png',
+                })
+              );
+
+          history.push('/events');
+        }}
       >
         <Form className="ui form">
-          <FormField>
-            <Field name="title" placeholder="Event title" />
-          </FormField>
-          <FormField>
-            <Field name="category" placeholder="Category" />
-          </FormField>
-          <FormField>
-            <Field name="description" placeholder="Description" />
-          </FormField>
-          <FormField>
-            <Field name="city" placeholder="City" />
-          </FormField>
-          <FormField>
-            <Field name="venue" placeholder="Venue" />
-          </FormField>
-          <FormField>
-            <Field name="date" type="date" placeholder="Event date" />
-          </FormField>
+          <Header content="Event Details" color="teal" />
+
+          <MyTextInput name="title" placeholder="Event title" />
+          <MySelectInput
+            name="category"
+            placeholder="Event category"
+            options={categoryData}
+          />
+          <MyTextArea
+            name="description"
+            placeholder="Event description"
+            rows="3"
+          />
+
+          <Header content="Event Location Details" color="teal" />
+          <MyTextInput name="city" placeholder="Event city" />
+          <MyTextInput name="venue" placeholder="Event venue" />
+          <MyDateInput
+            name="date"
+            placeholderText="Event date"
+            timeFormat="HH:mm"
+            showTimeSelect
+            timeCaption="time"
+            dateFormat="MMMM d, yyyy h:mm a"
+          />
 
           <Button type="submit" floated="right" positive content="Submit" />
           <Button
