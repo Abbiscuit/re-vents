@@ -3,10 +3,11 @@ const {
   CREATE_EVENT,
   UPDATE_EVENT,
   DELETE_EVENT,
+  FETCH_EVENTS,
 } = require('./eventConstants');
 
 const INITIAL_STATE = {
-  events: sampleData,
+  events: [],
 };
 
 export default function eventReducer(state = INITIAL_STATE, { type, payload }) {
@@ -27,6 +28,11 @@ export default function eventReducer(state = INITIAL_STATE, { type, payload }) {
       return {
         ...state,
         events: [...state.events.filter(evt => evt.id !== payload)],
+      };
+    case FETCH_EVENTS:
+      return {
+        ...state,
+        events: payload,
       };
 
     default:
