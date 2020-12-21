@@ -9,6 +9,7 @@ import NavBar from '../../features/nav/NavBar';
 import EventDetailedPage from '../../features/events/eventDetailed/EventDetailedPage';
 import EventForm from '../../features/events/eventForm/EventForm';
 import Sandbox from '../../features/sandbox/Sandbox';
+import ModalManager from '../common/modals/ModalManager';
 
 function App() {
   // Appにはkeyが存在しないため
@@ -16,6 +17,7 @@ function App() {
 
   return (
     <Fragment>
+      <ModalManager />
       <Route exact path="/" component={HomePage} />
       <Route
         path={'/(.+)'}
